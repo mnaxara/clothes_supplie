@@ -1,14 +1,33 @@
+<script type="text/javascript">let $background = [];</script>
+<?php
+
+require_once ('includes/connect.php');
+
+$backgroundSearch = $connexion->query("
+	
+	SELECT name FROM imgheader WHERE active = 1
+
+	");
+
+$backgrounds = $backgroundSearch->fetchAll();
+
+foreach ($backgrounds as $background) {
+	?><script type="text/javascript">
+		$background.push('url(' + <?=$background['name']?>+')');
+
+	</script>
+}
+
+?>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script type="text/javascript">
 $(function(){ // Encapsulage
  
 	// CHANGEMENT DU BG DU HEADER
 
-	let $background = [// Tableau contenant tous les fonds possible
-		'url(../img/boutique1.jpg)',
-		'url(../img/boutique2.jpg)',
-		'url(../img/boutique3.jpg)',
-		'url(../img/boutique4.jpg)'
+	<?php?>
 
-	];
+	
 
 	let backActuel = 0; // Declaration d'une variable qui stockera le fond d'ecran actuel (index)
 
@@ -23,7 +42,7 @@ $(function(){ // Encapsulage
 
 	};
 
-	setInterval(changeBackground, 5000);
+	setInterval(changeBackground, 1000);
 
 	$('#burger').click(() =>{
 
@@ -42,3 +61,5 @@ $(function(){ // Encapsulage
 	})
 
 })
+
+</script>
