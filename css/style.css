@@ -1,0 +1,18 @@
+header{
+	background-image: url(../img/recentpost1.jpg);
+	background-position: center;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	height: 500px;
+}
+
+.burger{
+	border: 1px solid black;
+	padding: 10px;
+	border-radius: 15px;
+	background-color: transparent;
+}
+
+.btn{
+	background-color: transparent;
+}
