@@ -1,8 +1,8 @@
 header{
 	background-color: lightblue;
-	background-image: url(../img/recentpost1.jpg);
+	background-image: url(../img/boutique1.jpg.);
 	background-position: center;
-	background-size: contain;
+	background-size: 100% auto;
 	background-repeat: no-repeat;
 	height: 500px;
 }
@@ -11,11 +11,12 @@ header{
 	border: 1px solid black;
 	padding: 10px;
 	border-radius: 15px;
-	background-color: transparent;
+	background-color: #FFF;
 	cursor: pointer;
+	color: blue;
 }
 
-.btn{
+.btnSearch{
 	background-color: transparent;
 	margin-left: -50px;/*-100% de la largeur*/
 }
@@ -40,4 +41,16 @@ header{
 }
 li a{
 	text-decoration: none;
+	color: black;
+}
+
+#connectDiv{
+	display: none;
+	background-color: #FFF;
+	position: absolute;
+	width :300px;
+	left: 50%;
+	margin-left: -150px;
+	padding: 10px 0;
+	border-radius: 5%;
 }

@@ -3,8 +3,10 @@ $(function(){ // Encapsulage
 	// CHANGEMENT DU BG DU HEADER
 
 	let $background = [// Tableau contenant tous les fonds possible
-		'url(../img/recentpost1.jpg)',
-		'url(../img/soloslider.png)'
+		'url(../img/boutique1.jpg)',
+		'url(../img/boutique2.jpg)',
+		'url(../img/boutique3.jpg)',
+		'url(../img/boutique4.jpg)'
 
 	];
 
@@ -21,11 +23,21 @@ $(function(){ // Encapsulage
 
 	};
 
-	setInterval(changeBackground, 1000);
+	setInterval(changeBackground, 5000);
 
 	$('#burger').click(() =>{
 
 	$('#menuBurger').toggle();
+
+	})
+
+	$('#menuBurger').on('click', $('#connect'), (e) =>{
+
+	$('#connectDiv').toggle();
+
+	$('#connectDiv').css('top', 20);
+	
+	console.log($menuHeight/2);
 
 	})
 
