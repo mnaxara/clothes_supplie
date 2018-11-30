@@ -1,18 +1,43 @@
 header{
+	background-color: lightblue;
 	background-image: url(../img/recentpost1.jpg);
 	background-position: center;
-	background-size: 100% 100%;
+	background-size: contain;
 	background-repeat: no-repeat;
 	height: 500px;
 }
 
-.burger{
+#burger{
 	border: 1px solid black;
 	padding: 10px;
 	border-radius: 15px;
 	background-color: transparent;
+	cursor: pointer;
 }
 
 .btn{
 	background-color: transparent;
+	margin-left: -50px;/*-100% de la largeur*/
+}
+
+.loupe{
+	color: blue;
+	font-size: 1.5em;
+}
+
+#menuBurger{
+	display: none;
+	background-color: #FFF;
+	border: 1px solid black;
+	position: absolute;
+	z-index: 1;
+	width: 50%;
+}
+
+.list-group-item:hover{
+	cursor: pointer;
+	background-color: rgba(100, 100, 200, 0.5);
+}
+li a{
+	text-decoration: none;
 }
