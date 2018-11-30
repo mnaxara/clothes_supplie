@@ -38,7 +38,7 @@ $(function(){ // Encapsulage
 
 	};
 
-	setInterval(changeBackground, 1000);
+	setInterval(changeBackground, 10000);
 
 	$('#burger').click(() =>{
 
