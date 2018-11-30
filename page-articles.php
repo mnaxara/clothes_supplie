@@ -9,7 +9,7 @@
 
 <main class="container">
 
-	<dir class="row">
+	<div class="row">
 		
 		<div class="col-md-3"></div>
 		<div class="col-md-3"></div>
@@ -17,7 +17,7 @@
 		<div class="col-md-offset-2"></div>
 		<div class="col-md-2"></div>
 
-	</dir>
+	</div>
 	<?php 
 	require_once('includes/connect.php');
 	if(!empty($_GET)){
