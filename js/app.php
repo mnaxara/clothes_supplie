@@ -40,19 +40,42 @@ $(function(){ // Encapsulage
 
 	setInterval(changeBackground, 10000);
 
+	// Affichage du menu burger
+
 	$('#burger').click(() =>{
 
 	$('#menuBurger').toggle();
 
-	})
+	});
+
+	// Affichage de la div de connexion
 
 	$('#listBurger').on('click', '#connect', function() {
 
 	$('#connectDiv').toggle();
 
-	$('#connectDiv').css('top', 20);
-
 	})
+
+	// Gestion des on clic sur les li
+
+	$('#home').click(() =>{
+
+	window.location.replace("index.php");
+
+	});
+
+	$('#article').click(() =>{
+
+	window.location.replace("page-articles.php");
+
+	});
+
+	$('#contact').click(() =>{
+
+	window.location.replace("contact.php");
+
+	});
+
 
 })
 

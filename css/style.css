@@ -6,6 +6,12 @@ header{
 	height: 500px;
 }
 
+#userInfo{
+	background-color: rgba(220, 220, 220, 0.5);
+	text-align: center;
+	color: yellow;
+}
+
 #burger{
 	border: 1px solid black;
 	padding: 10px;
@@ -32,15 +38,12 @@ header{
 	position: absolute;
 	z-index: 1;
 	width: 50%;
+	border-radius: 10px;
 }
 
 .list-group-item:hover{
 	cursor: pointer;
 	background-color: rgba(100, 100, 200, 0.5);
-}
-li a{
-	text-decoration: none;
-	color: black;
 }
 
 #connectDiv{
@@ -49,6 +52,7 @@ li a{
 	position: absolute;
 	width :300px;
 	left: 50%;
+	top: 20px;
 	margin-left: -150px;
 	padding: 10px 0;
 	border-radius: 5%;

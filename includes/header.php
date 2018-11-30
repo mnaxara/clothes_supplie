@@ -16,6 +16,7 @@ require_once ('connect.php');
 	<header class="container-fluid mb-5">
 		<div class="row d-flex align-items-center">
 			<div class="col-10 col-md-3">
+		<!-- Search bar  -->
 				<form class="p-md-3">
                     <div class="d-flex align-items-center">
                         <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Chercher un article">
@@ -23,34 +24,36 @@ require_once ('connect.php');
                     </div>
                 </form>
 			</div>
+			<!-- Div caché de connexion -->
 			<div id="connectDiv">
-				<form id="connectForm" class="d-flex flex-column align-items-center" action="header.php" method="POST">
+				<form id="connectForm" class="d-flex flex-column align-items-center" action="connexion.php" method="POST">
 					<div class="form-group m-2">
 			   			<label for="email">Email address</label>
-						<input type="email" class="form-control" name= "" id="email" placeholder="Enter email">
+						<input type="email" class="form-control" name= "email" id="email" placeholder="Enter email">
 					</div>
 					<div class="form-group m-2">
 						<label for="exampleInputPassword1">Password</label>
-						<input type="password" class="form-control" name= "" id="exampleInputPassword1" placeholder="Password">
+						<input type="password" class="form-control" name= "password" id="exampleInputPassword1" placeholder="Password">
 					</div>
 					<button type="submit" class="btn btn-primary m-2">Se Connecter</button>
-				</form>
-
-<?php
-				if (!empty($_POST)) {
-					
-				}
-?>
-				
+				</form>		
 
 			</div>
-			<div class="col-2 col-md-2 offset-md-7">
+			<div class="col-md-3 offset-md-2" id="userInfo">
+				<?php
+				if ($_SESSION['role'] === 'ROLE_ADMIN') {
+					echo "<span>Connecté en tant que ".$_SESSION['email']." -Admin- </span>";
+				}
+				?>
+			</div>
+		<!-- Menu burger  -->
+			<div class="col-2 col-md-2 offset-md-2 text-center">
 				<i class="fas fa-bars fa-2x" id="burger"></i>
 				<div id="menuBurger">
 					<ul class="list-group" id="listBurger">
-					  <li class="list-group-item"><a href="index.php">Home</a></li>
-					  <li class="list-group-item"><a href="page-articles.php">Nos Articles</a></li>
-					  <li class="list-group-item"><a href="contact.php">Contact</a></li>
+					  <li class="list-group-item" id="home">Home</li>
+					  <li class="list-group-item" id="article">Nos Articles</li>
+					  <li class="list-group-item" id="contact">Contact</li>
 					  <?php
 					  	if (!empty($_SESSION['connexion'])) {
 						  echo '<li class="list-group-item" id="deconnect">Deconnexion</li>';
