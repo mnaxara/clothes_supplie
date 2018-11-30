@@ -44,6 +44,9 @@ require_once ('connect.php');
 				if ($_SESSION['role'] === 'ROLE_ADMIN') {
 					echo "<span>Connecté en tant que ".$_SESSION['email']." -Admin- </span>";
 				}
+				if ($_SESSION['role'] === 'ROLE_VENDOR') {
+					echo "<span>Connecté en tant que ".$_SESSION['email']." -Vendeur- </span>";
+				}
 				?>
 			</div>
 		<!-- Menu burger  -->
