@@ -1,0 +1,43 @@
+ul.info {
+	list-style: none;
+	padding: 5%;
+}
+ul.info span{
+	text-decoration:underline;
+}
+button.btn.btn-default {
+	height: 2%;
+}
+form.c_contact{
+	margin-bottom: 2%;
+}
+form.c_news{
+	margin-top: 2%; 
+}
+ul h2{
+	text-decoration:underline;
+
+}
+.d_contact{
+	padding: 0;
+
+}
+.map{
+	
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+#floating-panel{
+	position: absolute;
+	top: 10px;
+	left: 25%;
+	z-index: 5;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #999;
+	text-align: center;
+	font-family: 'Roboto','sans-serif';
+	line-height: 30px;
+	padding-left: 10px;
+}

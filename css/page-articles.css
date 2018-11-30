@@ -1,0 +1,21 @@
+#search{
+	height: 33px;
+	padding-bottom: 27px;
+}
+
+#form-search input, #form-search select{
+height: 33px;
+border-radius: 5px;
+}
+
+#rowArticle{
+	margin-top: 70px;
+}
+
+#rowArticle h1{
+	font-size: 36px;
+}
+
+#rowArticle h2{
+	font-size: 17px;
+}

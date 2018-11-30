@@ -12,7 +12,7 @@ $backgrounds = $backgroundSearch->fetchAll();
 
 foreach ($backgrounds as $background) {
 	?><script type="text/javascript">
-		$background.push('url(../img/<?=$background['name']?>)');
+		$background.push('url(img/<?=$background['name']?>)');
 
 	</script>
 	<?php
@@ -38,7 +38,7 @@ $(function(){ // Encapsulage
 
 	};
 
-	setInterval(changeBackground, 1000);
+	setInterval(changeBackground, 10000);
 
 	$('#burger').click(() =>{
 
@@ -46,13 +46,11 @@ $(function(){ // Encapsulage
 
 	})
 
-	$('#menuBurger').on('click', $('#connect'), (e) =>{
+	$('#listBurger').on('click', '#connect', function() {
 
 	$('#connectDiv').toggle();
 
 	$('#connectDiv').css('top', 20);
-	
-	console.log($menuHeight/2);
 
 	})
 
