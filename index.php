@@ -1,7 +1,7 @@
 <?php
 require_once ('includes/connect.php');
-?>
-<?php include('includes/header.php');
+session_start();
+$_SESSION['connexion'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +13,9 @@ require_once ('includes/connect.php');
 	<link rel="stylesheet" type="text/css" href="css/style-accueil.css">
 </head>
 <body>
+<?php include('includes/header.php');
+?>
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
