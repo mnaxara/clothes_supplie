@@ -1,0 +1,40 @@
+.les_meilleurs{
+	border-left: 1px solid lightgray;
+	list-style: square;
+}
+.les_meilleurs ul li{
+	list-style: square;
+}
+.footer_contact ul li{
+	list-style: square;
+	margin: 15px;
+}
+.footer_contact{
+	border-left: 1px solid lightgray;
+}
+.center_footer{
+	display: flex;
+	justify-content: center;
+}
+.footer_ico{
+	font-size: 3rem;
+	margin: 0 10px;
+
+}
+.fa-twitter-square{
+	color: #1DA1F2;
+	
+}
+
+.fa-instagram{
+	color: brown;
+}
+.fa-facebook{
+	color: #4267B2;
+}
+.fa-pinterest-square{
+	color: #BD081C;
+}
+.bg_gray{
+	background: #bdbdbd29;
+}
