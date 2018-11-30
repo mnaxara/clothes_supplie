@@ -1,5 +1,5 @@
  <?php
-// session_start();
+session_start();
 require_once ('includes/connect.php');
  require_once('vendor/autoload.php');
  use PHPMailer\PHPMailer\PHPMailer;
@@ -107,22 +107,6 @@ require_once ('includes/connect.php');
 
                 $adresse = $resultat->fetch();
 
-                
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                    $adresse = $adresse['adress'];
 
                    $opts = array(
@@ -209,7 +193,7 @@ require_once ('includes/connect.php');
         </form>
     </section>
 </div>
-<?php include('includes/footer.php'); ?>
+
 <script>
   function initMap() {
     var adresse = {lat: <?= $lat ?>,  lng: <?= $lng ?>};
