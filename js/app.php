@@ -76,6 +76,11 @@ $(function(){ // Encapsulage
 
 	});
 
+	$('#listBurger').on('click', '#deconnect', function() {
+
+	window.location.replace("logout.php");
+
+	})
 
 })
 

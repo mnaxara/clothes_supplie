@@ -17,9 +17,9 @@ require_once ('connect.php');
 		<div class="row d-flex align-items-center">
 			<div class="col-10 col-md-3">
 		<!-- Search bar  -->
-				<form class="p-md-3">
+				<form class="p-md-3" action="page-articles.php">
                     <div class="d-flex align-items-center">
-                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Chercher un article">
+                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="Chercher un article" name="nom">
                         <button class="btn btnSearch" type="submit"><i class="fas fa-search loupe"></i></button>
                     </div>
                 </form>
@@ -39,12 +39,12 @@ require_once ('connect.php');
 				</form>		
 
 			</div>
-			<div class="col-md-3 offset-md-2" id="userInfo">
+			<div class="col-md-3 offset-md-2" id="userInfo" style="<?= !empty($_SESSION) ? 'background-color: rgba(220, 220, 220, 0.5)' : "";?>">
 				<?php
-				if ($_SESSION['role'] === 'ROLE_ADMIN') {
+				if (!empty($_SESSION) && $_SESSION['role'] === 'ROLE_ADMIN') {
 					echo "<span>Connecté en tant que ".$_SESSION['email']." -Admin- </span>";
 				}
-				if ($_SESSION['role'] === 'ROLE_VENDOR') {
+				if (!empty($_SESSION) && $_SESSION['role'] === 'ROLE_VENDOR') {
 					echo "<span>Connecté en tant que ".$_SESSION['email']." -Vendeur- </span>";
 				}
 				?>

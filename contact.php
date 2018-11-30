@@ -1,4 +1,4 @@
- <?php
+<?php
 session_start();
 require_once ('includes/connect.php');
  require_once('vendor/autoload.php');
@@ -194,6 +194,9 @@ require_once ('includes/connect.php');
     </section>
 </div>
 
+  <?php
+  include('includes/footer.php');
+  ?>
 <script>
   function initMap() {
     var adresse = {lat: <?= $lat ?>,  lng: <?= $lng ?>};
@@ -206,6 +209,7 @@ require_once ('includes/connect.php');
       map: map
   });
 }
+
 </script>
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0xJoi5c9MwYIYQlwIEfLqLh95hLtcaYA&callback=initMap">
