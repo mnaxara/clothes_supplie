@@ -1,0 +1,12 @@
+
+.img-responsive img{
+	width: 289px;
+	height: 289px;
+ 
+}
+.logo{
+	text-align:center;
+}
+body{
+	background-color:#d1d2d833;
+}
