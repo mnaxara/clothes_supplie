@@ -1,9 +1,5 @@
-<?php
-
+<?php 
 require_once ('../includes/connect.php');
-
-
-
 ?>
 
 <!DOCTYPE html>
