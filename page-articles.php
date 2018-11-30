@@ -34,7 +34,7 @@
 			$errors[] = 'ordre invalide';
 		}
 		if(empty($errors)){
-			$sql = ('SELECT * FROM clothsupply ');
+			$sql = 'SELECT * FROM products INNER JOIN categorie_has_products products.id = categorie_has_products.id_products INNER JOIN categories categorie_has_products.categories_id = categories.id';
 			if(!empty($_GET['categorie'])){
 				$sql .= ' WHERE :categorie';
 			}
