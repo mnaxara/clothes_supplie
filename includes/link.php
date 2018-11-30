@@ -3,3 +3,4 @@
 <link rel="stylesheet" type="text/css" href="css/style.css">
 <link rel="stylesheet" type="text/css" href="css/contact_app.css">
 <link rel="stylesheet" type="text/css" href="css/style-accueil.css">
+<link rel="stylesheet" type="text/css" href="css/page-articles.css">

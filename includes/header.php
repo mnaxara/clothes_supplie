@@ -48,9 +48,9 @@ require_once ('connect.php');
 				<i class="fas fa-bars fa-2x" id="burger"></i>
 				<div id="menuBurger">
 					<ul class="list-group" id="listBurger">
-					  <li class="list-group-item"><a href="../index.php">Home</a></li>
-					  <li class="list-group-item"><a href="../page-articles.php">Nos Articles</a></li>
-					  <li class="list-group-item"><a href="../contact.php">Contact</a></li>
+					  <li class="list-group-item"><a href="index.php">Home</a></li>
+					  <li class="list-group-item"><a href="page-articles.php">Nos Articles</a></li>
+					  <li class="list-group-item"><a href="contact.php">Contact</a></li>
 					  <?php
 					  	if (!empty($_SESSION['connexion'])) {
 						  echo '<li class="list-group-item" id="deconnect">Deconnexion</li>';

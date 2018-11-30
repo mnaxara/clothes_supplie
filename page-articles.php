@@ -1,5 +1,5 @@
 <?php
-include('connect.php');
+include('includes/connect.php');
 session_start();
 
 $select = $connexion->query('SELECT * FROM categories');
@@ -16,6 +16,8 @@ $categories = $select->fetchAll();
 	<link rel="stylesheet" href="page-articles.css">
 </head>
 <body>
+
+<?php include ('includes/header.php')?>
 
 <main class="container">
 
