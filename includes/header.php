@@ -2,8 +2,6 @@
 
 require_once ('../includes/connect.php');
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +26,7 @@ require_once ('../includes/connect.php');
                 </form>
 			</div>
 			<div id="connectDiv">
-				<form id="connectForm" class="d-flex flex-column align-items-center">
+				<form id="connectForm" class="d-flex flex-column align-items-center" action="header.php" method="POST">
 					<div class="form-group m-2">
 			   			<label for="email">Email address</label>
 						<input type="email" class="form-control" id="email" placeholder="Enter email">
