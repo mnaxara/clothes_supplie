@@ -1,7 +1,7 @@
 <?php
-require_once ('includes/connect.php');
-session_start();
-$_SESSION['connexion'];
+// require_once ('includes/connect.php');
+// session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
