@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 30 nov. 2018 à 14:09
+-- Généré le :  ven. 30 nov. 2018 à 13:42
 -- Version du serveur :  10.1.32-MariaDB
 -- Version de PHP :  7.2.5
 
@@ -33,18 +33,6 @@ CREATE TABLE `categories` (
   `category_name` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `categories`
---
-
-INSERT INTO `categories` (`id`, `category_name`) VALUES
-(1, 'pull'),
-(2, 'manteau'),
-(3, 'pantalon'),
-(4, 'chaussette'),
-(5, 'robe'),
-(6, 'jean');
-
 -- --------------------------------------------------------
 
 --
@@ -68,16 +56,6 @@ CREATE TABLE `imgheader` (
   `active` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Déchargement des données de la table `imgheader`
---
-
-INSERT INTO `imgheader` (`id`, `name`, `active`) VALUES
-(1, 'f9eb62865664c030963786d250584bdf.jpg', 1),
-(2, '97fda2b414b403b7bb435fb4fa653e42.jpg', 1),
-(3, '7174237d94a86a7978c7f93102a4fd5b.jpg', 1),
-(4, '0292ba2832308a5fe8e06aa44e109f34.jpg', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -89,20 +67,6 @@ CREATE TABLE `imgproduct` (
   `name` varchar(45) DEFAULT NULL,
   `id_product` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `imgproduct`
---
-
-INSERT INTO `imgproduct` (`id`, `name`, `id_product`) VALUES
-(2, '666df37b907792b289563414c8af053b.jpg', 1),
-(3, 'cfe3c336f1b1637eb4a365650726cf0a.jpg', 1),
-(4, 'eede2c45097054e0da0ab0dbfcbe532e.jpg', 1),
-(5, 'c1e49195f79288a0338ef8a14dbc1e39.jpg', 2),
-(6, '046c8a72a75807775198dd59f9c38dcd.jpg', 2),
-(7, 'a0b1498639cd681d68353b2031684b93.jpg', 2),
-(8, '9df4ca3f29acc5f03043b335af5730af.jpg', 2),
-(9, '3fc8f76e2410bbeb5c112e905f99c4f5.jpg', 2);
 
 -- --------------------------------------------------------
 
@@ -117,15 +81,6 @@ CREATE TABLE `products` (
   `availability` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `products`
---
-
-INSERT INTO `products` (`id`, `name`, `price`, `availability`, `description`) VALUES
-(1, 'manteaux en ours', 250, NULL, 'Jolie manteau en ours blanc du bingale'),
-(2, 'pull en laine', 50, '5', 'Un pull qui ravivra mamie de son design'),
-(3, 'pantalon patte d\'eph', 70, '5', 'Vous vivez dans les années 80 coucou');
 
 -- --------------------------------------------------------
 
@@ -180,7 +135,7 @@ ALTER TABLE `imgheader`
 --
 ALTER TABLE `imgproduct`
   ADD PRIMARY KEY (`id`,`id_product`),
-  ADD KEY `fk_imgProduit_produits1_idx` (`id_product`) USING BTREE;
+  ADD KEY `fk_imgProduit_produits1_idx` (`id_product`);
 
 --
 -- Index pour la table `products`
@@ -208,25 +163,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `imgheader`
 --
 ALTER TABLE `imgheader`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `imgproduct`
 --
 ALTER TABLE `imgproduct`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `shop`
