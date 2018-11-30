@@ -18,7 +18,49 @@
 		<div class="col-md-2"></div>
 
 	</dir>
+	<?php 
+	require_once('includes/connect.php');
+	if(!empty($_GET)){
+		$select = $connexion -> query('SELECT * FROM categorie');
+		$recherche = $select ->fetchAll();
+		$errors = [];
+		if(!empty($_GET['categorie']) && !in_array($_GET['categorie'], $recherche)){
+			$errors[] = 'Categorie invalide';
+		}
+		if(!empty($_GET['nom']) && !preg_match('#/w{2-20}#')){
+			$errors[] = 'Nom invalide';
+		}
+		if(!empty($_GET['tri']) && $_GET['tri'] === "ASC" || $_GET['tri'] === "DSC"){
+			$errors[] = 'ordre invalide';
+		}
+		if(empty($errors)){
+			$sql = ('SELECT * FROM clothsupply ');
+			if(!empty($_GET['categorie'])){
+				$sql .= ' WHERE :categorie';
+			}
+			if(!empty($_GET['nom'])){
+				$sql .= ' AND nom LIKE :nom ';
+			}
+			if(!empty($_GET['tri'])){
+				$sql .= ' ORDER BY price :ordre';
+			}
+			$select = $connexion -> prepare($sql);
+			if(!empty($_GET['categorie'])){
+				$select -> bindValue(':categorie', strip_tags($_GET['categorie']));
+			}
+			if(!empty($_GET['nom'])){
+				$select -> bindValue(':nom', strip_tags($_GET['nom']));
+			}
+			if(isset($_GET['tri'])){
+				$select -> bindValue(':ordre', $_GET['tri']);
+			}
+			$select->execute();
+        	$products = $select->fetchAll();
+		}
+	}
 	
+	
+	?>
 </main>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
