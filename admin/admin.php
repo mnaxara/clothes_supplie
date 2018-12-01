@@ -4,6 +4,16 @@ require_once ('../includes/connect.php');
 $admin = true;
 
 if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
+
+$photosHeader = $connexion->query("
+				
+	SELECT * FROM imgheader
+
+	");
+
+$photosH = $photosHeader->fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -27,10 +37,29 @@ if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
 			<legend>Insérer une image</legend>
 
 			<form action="upload.php" method="POST" enctype="multipart/form-data">
-				<input type="file" name="fichier">
+				<input type="file" name="fichier">			
 				<select name="table" id="table">
 					<option value="imgheader">Slider</option>
 					<option value="imgproduct">Articles</option>
+				</select>
+				<label for="article">Si lié a un article, indiquer l'article</label>
+				<select name="article" id="article">
+					<option value="">Choisir un article</option>
+		<?php
+			$articleBase = $connexion->query("
+				
+				SELECT id, name FROM products
+
+				");
+
+			$articles = $articleBase->fetchAll();
+
+			foreach ($articles as $article) {
+				?>
+				<option value="<?=$article['id']?>"><?=$article['name']?></option>
+				<?php
+			}
+		?>
 				</select>
 				<button>Envoyer</button>
 			</form>
@@ -47,11 +76,56 @@ if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
 						<th>Miniature</th>
 						<th>Modifier</th>
 					</tr>
+					<?php
+
+					$sliderRequest = $connexion->query("
+						
+						SELECT * FROM imgheader WHERE active != 0
+
+						");
+
+					$slider = $sliderRequest->fetchAll();
+
+					foreach ($slider as $img) {
+					?>
 					<tr>
-						<td>1</td>
-						<td>2</td>
-						<td>3</td>
+						<td><?=$img['active']?></td>
+					<form action="admin.php">
+						<td>
+							<label for="apercu<?=$img['active']?>">
+								<img src=
+								<?php
+
+									if (empty($_GET['apercu'.$img["active"]])){
+										echo "../img/thumbnails/".$img['name'];
+									}
+									else{
+										echo "../img/thumbnails/".$_GET['apercu'.$img["active"]];
+									} 
+
+								?>
+								>
+							</label>
+						</td>
+						<td>
+							<select name="apercu<?=$img['active']?>" id="apercu<?=$img['active']?>">
+							<option value="">Choisir une autre image</option>
+							<?php
+							foreach ($photosH as $photoH) {
+								?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option><?php
+							}
+							?>
+							</select>
+						</td>
+						<td>
+							<button>Apercu</button>
+						</form>
+						</td>
 					</tr>
+					<?php
+					}
+					?>
+					</form>
 				</table>
 
 			</form>

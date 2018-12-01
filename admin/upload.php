@@ -14,7 +14,7 @@ if(!empty($_FILES)){
 		//1 Mo = 1 048 576 octets
 
 		//je veux limiter mes fichiers à 500Ko
-		$maxSize = 400 * 400; //500Ko en octets
+		$maxSize = 1920 * 1080; //500Ko en octets
 		if($_FILES['fichier']['size'] <= $maxSize){
 			//le fichier a une taille acceptable
 
@@ -61,7 +61,7 @@ if(!empty($_FILES)){
 				imagecopyresampled($miniature, $newImage, 0, 0, 0, 0, $newWidth, $newHeight, $oldWidth, $oldHeight);
 
 				//chemin vers le dossier où je stocke mes miniatures
-				$folder = 'img/thumbnails/';
+				$folder = '../img/thumbnails/';
 
 				if($extension === 'jpg' || $extension === 'jpeg'){
 					imagejpeg($miniature, $folder . $newName . '.' . $extension);
@@ -75,22 +75,46 @@ if(!empty($_FILES)){
 
 				//------Fin de la création de miniature
 
-				//je peux transférer le fichier sur le serveur
-				move_uploaded_file($_FILES['fichier']['tmp_name'], 'img/' . $newName . '.' . $extension);
+				//Transfére le fichier sur le serveur
+				move_uploaded_file($_FILES['fichier']['tmp_name'], '../img/' . $newName . '.' . $extension);
 
-				//se connecter à la base et effectuer la requête pour insérer les infos dans la base
+				//Insersion suivant table choisi
 				require_once ('../includes/connect.php');
 
-				$table = strip_tags($_POST['table']);
+				$errors = [];
 
-				$insert = $connexion->prepare('INSERT INTO :table (name) VALUES("' . $newName . '.' . $extension .'")');
-				$insert->bindValue(':table', $table);
-				
-				if($insert->execute()){
-					echo 'image uploadée';
+				if ($_POST['table'] === 'imgproduct') {
+					if (is_numeric($_POST['article'])) {
+						$request = 'INSERT INTO imgproduct (name, id_product) VALUES ("' . $newName . '.' . $extension .'", :id)';
+					}
+					else{
+						$errors[] ="article incorrect";
+					}
+				}
+				elseif ($_POST['table'] === 'imgheader') {
+					$request = 'INSERT INTO imgheader (name) VALUES ("' . $newName . '.' . $extension .'")';
 				}
 				else{
-					echo 'upload ko';
+					$errors[] = "table inconnue";
+				}
+		
+				$insert = $connexion->prepare($request);
+
+				if ($_POST['table'] === 'imgproduct') {
+					$insert->bindValue(':id', strip_tags($_POST['article']));
+				}
+				// Lancement si pas d'erreur
+				if (empty($errors)) {
+					if($insert->execute()){
+						echo 'image uploadée';
+						echo '<a href="admin.php">revenir à l\'admin : </a>';
+					}
+					else{
+						echo 'upload ko';
+					}
+				}
+				else{
+					echo implode('<br>', $errors);
 				}
 			}
 			else{
