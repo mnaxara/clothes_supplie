@@ -32,8 +32,8 @@ require_once ('connect.php');
 						<input type="email" class="form-control" name= "email" id="email" placeholder="Enter email">
 					</div>
 					<div class="form-group m-2">
-						<label for="exampleInputPassword1">Password</label>
-						<input type="password" class="form-control" name= "password" id="exampleInputPassword1" placeholder="Password">
+						<label for="password">Password</label>
+						<input type="password" class="form-control" name= "password" id="password" placeholder="Password">
 					</div>
 					<button type="submit" class="btn btn-primary m-2">Se Connecter</button>
 				</form>		

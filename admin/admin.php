@@ -85,238 +85,259 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 		<link rel="stylesheet" type="text/css" href="../css/style.css">
 		<link rel="stylesheet" type="text/css" href="../css/footer_app.css">
+		<link rel="stylesheet" type="text/css" href="../css/admin.css">
 		<title>Page admin</title>
 
 	</head>
 
 	<body>
 		<?php include ('../includes/header_admin.php')?>
-	<!-- FORM D'INSERSION D'IMAGE -->
-		<fieldset>
-			<legend>Insérer une image</legend>
+		<div class="container">
+			<div class="row">
+				<fieldset class="col-12">
+					<legend>Ajouter un user</legend>
+				</fieldset>
+			</div>
+			<div class="row">
+				<fieldset class="col-12">
+					<legend>Changer l'adresse</legend>
+				</fieldset>
+			</div>
+		<!-- FORM D'INSERSION D'IMAGE -->
+			<div class="row">
+				<fieldset class="col-12">
+					<legend>Insérer une image</legend>
 
-			<form action="upload.php" method="POST" enctype="multipart/form-data">
-				<input type="file" name="fichier">			
-				<select name="table" id="table">
-					<option value="imgheader">Slider</option>
-					<option value="imgproduct">Produit</option>
-				</select>
-				<label for="article">Si lié a un produit, indiquer le produit</label>
-				<select name="article" id="article">
-					<option value="">Choisir un produit</option>
-		<?php
-			$articleBase = $connexion->query("
-				
-				SELECT id, name FROM products
-
-				");
-
-			$articles = $articleBase->fetchAll();
-
-			foreach ($articles as $article) {
-				?>
-				<option value="<?=$article['id']?>"><?=$article['name']?></option>
+					<form action="upload.php" method="POST" enctype="multipart/form-data">
+						<input type="file" name="fichier" id="file">
+						<label for="table">Type d'image :</label>			
+						<select name="table" id="table">
+							<option value="imgheader">Slider</option>
+							<option value="imgproduct">Produit</option>
+						</select>
+						<label for="article">Si lié a un produit, indiquer le produit</label>
+						<select name="article" id="article">
+							<option value="">Choisir un produit</option>
 				<?php
-			}
-		?>
-				</select>
-				<button>Envoyer</button>
-			</form>
+					$articleBase = $connexion->query("
+						
+						SELECT id, name FROM products
 
-			</form>
-		</fieldset>
-	<!-- FORM DE MODIFICATION DU SLIDER -->
-		<fieldset>
-			<legend>Modifier image Slider</legend>
-			<!-- REDUIRE ICI POUR MASQUER LE TABLEAU DE MODIF-->
-				<table>
-						<tr>
-							<th>Emplacement</th>
-							<th>Miniature</th>
-							<th>Modifier</th>
-						</tr>
-						<tr>
-							<!-- IMAGE 1 -->
-							<td>1</td>
-							<form action="admin.php" method="POST">
-								<td>
-									<label for="img1">
-										<img src=
-										<?php
-											// SI APERCU A ETE CLIQUE, POST AURA DES VALEUR PERMETTANT D'AFFICHER LA MINIATURE
-											if (!empty($_POST['img1']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
-												echo "../img/thumbnails/".$_POST['img1'];
+						");
+
+					$articles = $articleBase->fetchAll();
+
+					foreach ($articles as $article) {
+						?>
+						<option value="<?=$article['id']?>"><?=$article['name']?></option>
+						<?php
+					}
+				?>
+						</select>
+						<button>Envoyer</button>
+					</form>
+
+					</form>
+				</fieldset>
+			</div>
+		<!-- FORM DE MODIFICATION DU SLIDER -->
+			<div class="row">
+				<fieldset class="d-flex flex-column align-items-center col-12">
+					<legend>Modifier image Slider</legend>
+<!-- REDUIRE ICI POUR MASQUER LE TABLEAU DE MODIF-->
+						<table class="col-12 col-md-8 offset-md-2" id="updtSlider">
+							<thead>
+								<tr>
+									<th class="updtSliderTh">Emplacement</th>
+									<th class="updtSliderTh">Miniature</th>
+									<th class="updtSliderTh">Modifier</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<!-- IMAGE 1 -->
+									<td>1</td>
+									<form action="admin.php" method="POST">
+										<td>
+											<label for="img1">
+												<img src=
+												<?php
+													// SI APERCU A ETE CLIQUE, POST AURA DES VALEUR PERMETTANT D'AFFICHER LA MINIATURE
+													if (!empty($_POST['img1']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
+														echo "../img/thumbnails/".$_POST['img1'];
+													}
+													else{
+													// SINON CE SERA L'IMAGE ACTUELLEMENT EN PLACE, SLIDER SERA FORCEMENT UN TABLEAU A 4 VALEURS
+													// DONC IMAGE 1 = INDEX 0 ETC..... (SLIDER EST RECUPERE EN DEBUT DE PAGE)
+														echo "../img/thumbnails/".$slider[0]['name'];
+													} 
+												?>
+												>
+											</label>
+										</td>
+										<td>
+											<select name="img1" id="img1">
+											<option value="">Choisir une autre image</option>
+											<?php
+											// POUR CHAQUE PHOTO HEADER QUI N'EST PAS DANS LE SLIDER, UNE OPTION EST CREE
+											foreach ($photosH as $photoH) {
+												?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
+												<?php
 											}
-											else{
-											// SINON CE SERA L'IMAGE ACTUELLEMENT EN PLACE, SLIDER SERA FORCEMENT UN TABLEAU A 4 VALEURS
-											// DONC IMAGE 1 = INDEX 0 ETC..... (SLIDER EST RECUPERE EN DEBUT DE PAGE)
-												echo "../img/thumbnails/".$slider[0]['name'];
-											} 
-										?>
-										>
-									</label>
-								</td>
-								<td>
-									<select name="img1" id="img1">
-									<option value="">Choisir une autre image</option>
-									<?php
-									// POUR CHAQUE PHOTO HEADER QUI N'EST PAS DANS LE SLIDER, UNE OPTION EST CREE
-									foreach ($photosH as $photoH) {
-										?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
-										<?php
-									}
-									?>
-									</select>
-								</td>
-								<td>
-									<button name="action" value="preview">Apercu</button>
-								</td>
-								<td>
-									<input type="hidden" name="active" value="1">
-									<button name="action" value="update">Modifier</button>
-							</form>
-							</td>
-						</tr>
-						<tr>
-						<!-- IMAGE 2 -->
-							<td>2</td>
-								<form action="admin.php" method="POST">
-								<td>
-									<label for="img2">
-										<img src=
-										<?php
-											if (!empty($_POST['img2']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
-												echo "../img/thumbnails/".$_POST['img2'];
+											?>
+											</select>
+										</td>
+										<td>
+											<button name="action" value="preview">Apercu</button>
+										</td>
+										<td>
+											<input type="hidden" name="active" value="1">
+											<button name="action" value="update">Modifier</button>
+									</form>
+									</td>
+								</tr>
+								<tr>
+								<!-- IMAGE 2 -->
+									<td>2</td>
+										<form action="admin.php" method="POST">
+										<td>
+											<label for="img2">
+												<img src=
+												<?php
+													if (!empty($_POST['img2']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
+														echo "../img/thumbnails/".$_POST['img2'];
+													}
+													else{
+														echo "../img/thumbnails/".$slider[1]['name'];
+													} 
+												?>
+												>
+											</label>
+										</td>
+										<td>
+											<select name="img2" id="img2">
+											<option value="">Choisir une autre image</option>
+											<?php
+											foreach ($photosH as $photoH) {
+												?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
+												<?php
 											}
-											else{
-												echo "../img/thumbnails/".$slider[1]['name'];
-											} 
-										?>
-										>
-									</label>
-								</td>
-								<td>
-									<select name="img2" id="img2">
-									<option value="">Choisir une autre image</option>
-									<?php
-									foreach ($photosH as $photoH) {
-										?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
-										<?php
-									}
-									?>
-									</select>
-								</td>
-								<td>
-									<button name="action" value="preview">Apercu</button>
-								</td>
-								<td>
-									<input type="hidden" name="active" value="2">
-									<button name="action" value="update">Modifier</button>
-								</form>
-							</td>
-						</tr>
-						<tr>
-							<!-- IMAGE 3 -->
-							<td>3</td>
-								<form action="admin.php" method="POST">
-								<td>
-									<label for="img3">
-										<img src=
-										<?php
-											if (!empty($_POST['img3']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
-												echo "../img/thumbnails/".$_POST['img3'];
+											?>
+											</select>
+										</td>
+										<td>
+											<button name="action" value="preview">Apercu</button>
+										</td>
+										<td>
+											<input type="hidden" name="active" value="2">
+											<button name="action" value="update">Modifier</button>
+										</form>
+									</td>
+								</tr>
+								<tr>
+									<!-- IMAGE 3 -->
+									<td>3</td>
+										<form action="admin.php" method="POST">
+										<td>
+											<label for="img3">
+												<img src=
+												<?php
+													if (!empty($_POST['img3']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
+														echo "../img/thumbnails/".$_POST['img3'];
+													}
+													else{
+														echo "../img/thumbnails/".$slider[2]['name'];
+													} 
+												?>
+												>
+											</label>
+										</td>
+										<td>
+											<select name="img3" id="img3">
+											<option value="">Choisir une autre image</option>
+											<?php
+											foreach ($photosH as $photoH) {
+												?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
+												<?php
 											}
-											else{
-												echo "../img/thumbnails/".$slider[2]['name'];
-											} 
-										?>
-										>
-									</label>
-								</td>
-								<td>
-									<select name="img3" id="img3">
-									<option value="">Choisir une autre image</option>
-									<?php
-									foreach ($photosH as $photoH) {
-										?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
-										<?php
-									}
-									?>
-									</select>
-								</td>
-								<td>
-									<button name="action" value="preview">Apercu</button>
-								</td>
-								<td>
-									<input type="hidden" name="active" value="3">
-									<button name="action" value="update">Modifier</button>
-								</form>
-							</td>
-						</tr>
-						<tr>
-							<!-- IMAGE 4 -->
-							<td>4</td>
-								<form action="admin.php" method="POST">
-								<td>
-									<label for="img4">
-										<img src=
-										<?php
-											if (!empty($_POST['img4']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
-												echo "../img/thumbnails/".$_POST['img4'];
+											?>
+											</select>
+										</td>
+										<td>
+											<button name="action" value="preview">Apercu</button>
+										</td>
+										<td>
+											<input type="hidden" name="active" value="3">
+											<button name="action" value="update">Modifier</button>
+										</form>
+									</td>
+								</tr>
+								<tr>
+									<!-- IMAGE 4 -->
+									<td>4</td>
+										<form action="admin.php" method="POST">
+										<td>
+											<label for="img4">
+												<img src=
+												<?php
+													if (!empty($_POST['img4']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
+														echo "../img/thumbnails/".$_POST['img4'];
+													}
+													else{
+														echo "../img/thumbnails/".$slider[3]['name'];
+													} 
+												?>
+												>
+											</label>
+										</td>
+										<td>
+											<select name="img4" id="img4">
+											<option value="">Choisir une autre image</option>
+											<?php
+											foreach ($photosH as $photoH) {
+												?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
+												<?php
 											}
-											else{
-												echo "../img/thumbnails/".$slider[3]['name'];
-											} 
-										?>
-										>
-									</label>
-								</td>
-								<td>
-									<select name="img4" id="img4">
-									<option value="">Choisir une autre image</option>
-									<?php
-									foreach ($photosH as $photoH) {
-										?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
-										<?php
-									}
-									?>
-									</select>
-								</td>
-								<td>
-									<button name="action" value="preview">Apercu</button>
-								</td>
-								<td>
-									<input type="hidden" name="active" value="4">
-									<button name="action" value="update">Modifier</button>
-								</form>
-							</td>
-						</tr>
-				</table>
+											?>
+											</select>
+										</td>
+										<td>
+											<button name="action" value="preview">Apercu</button>
+										</td>
+										<td>
+											<input type="hidden" name="active" value="4">
+											<button name="action" value="update">Modifier</button>
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+				</fieldset>
+			</div>
+			<div class="row">
+				<fieldset class="col-12">
+					<legend>Modif images d'accueil</legend>
+				</fieldset>
+			</div>
+
+	<?php
+	} //Fin Admin Zone
+	// Zone Vendeur / Admin
+	if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
+	?>
+	<div class="row">
+		<fieldset class="col-12">
+			<legend>Edition / Ajout d'article</legend>
 		</fieldset>
-
-		<fieldset>
-			<legend>Ajouter un user</legend>
-		</fieldset>
-
-		<fieldset>
-			<legend>Changer l'adresse</legend>
-		</fieldset>
-
-<?php
-} //Fin Admin Zone
-// Zone Vendeur / Admin
-if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
-?>
-<fieldset>
-	<legend>Edition / Ajout d'article</legend>
-</fieldset>
+	</div>
 
 
 
-<?php
-}// Fin Zone Veudeur / Admin
-include ('../includes/footer_admin.php');
-?>
+	<?php
+	}// Fin Zone Veudeur / Admin
+	?>
+</div>
+	<?php include ('../includes/footer_admin.php');?>
 	</body>
 
 
