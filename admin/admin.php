@@ -289,7 +289,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 				</table>
 		</fieldset>
 
-		<?php include ('../includes/footer.php')?>
+		<?php include ('../includes/footer_admin.php')?>
 	</body>
 
 <?php
