@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  sam. 01 déc. 2018 à 17:31
+-- Généré le :  sam. 01 déc. 2018 à 22:15
 -- Version du serveur :  10.1.36-MariaDB
 -- Version de PHP :  7.2.11
 
@@ -80,12 +80,13 @@ CREATE TABLE `imgheader` (
 --
 
 INSERT INTO `imgheader` (`id`, `name`, `active`) VALUES
-(1, 'f9eb62865664c030963786d250584bdf.jpg', 3),
-(2, '97fda2b414b403b7bb435fb4fa653e42.jpg', 2),
+(1, 'f9eb62865664c030963786d250584bdf.jpg', 0),
+(2, '97fda2b414b403b7bb435fb4fa653e42.jpg', 0),
 (3, '7174237d94a86a7978c7f93102a4fd5b.jpg', 1),
-(4, '0292ba2832308a5fe8e06aa44e109f34.jpg', 4),
-(5, '17e7d485c67c130d60b7f5926a089ee8.jpg', 0),
-(6, '5c80cca158e6cb4a1005d7f8104e9d9b.png', 0);
+(4, '0292ba2832308a5fe8e06aa44e109f34.jpg', 0),
+(5, '17e7d485c67c130d60b7f5926a089ee8.jpg', 2),
+(6, '5c80cca158e6cb4a1005d7f8104e9d9b.png', 3),
+(7, '1e1abfa80c0e9513424e31a134e1bc4f.jpg', 4);
 
 -- --------------------------------------------------------
 
@@ -114,9 +115,9 @@ INSERT INTO `imgproduct` (`id`, `name`, `id_product`, `mainpage`) VALUES
 (8, '9df4ca3f29acc5f03043b335af5730af.jpg', 2, 0),
 (9, '3fc8f76e2410bbeb5c112e905f99c4f5.jpg', 2, 0),
 (11, '07c3dee6bf3bfef2c0978de5f7db4bc2.jpg', 1, 1),
-(12, 'f4c6217f6e87d54a3ca8d1205f8e527c.jpg', 2, 1),
-(13, '61de5b77b2381c7fbb07e0b493a199d9.jpg', 2, 1),
-(14, '7414c0ca7d01880c28e3b9bf5b3d5020.jpg', 3, 1);
+(12, 'f4c6217f6e87d54a3ca8d1205f8e527c.jpg', 2, 2),
+(13, '61de5b77b2381c7fbb07e0b493a199d9.jpg', 2, 3),
+(14, '7414c0ca7d01880c28e3b9bf5b3d5020.jpg', 3, 4);
 
 -- --------------------------------------------------------
 
@@ -242,7 +243,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `imgheader`
 --
 ALTER TABLE `imgheader`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `imgproduct`

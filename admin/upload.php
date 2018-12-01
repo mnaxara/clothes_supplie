@@ -1,4 +1,5 @@
 <?php
+session_start()
 //$_FILES contient les informations du ou des fichiers envoyés
 //var_dump($_FILES);
 
@@ -107,6 +108,10 @@ if(!empty($_FILES)){
 				if (empty($errors)) {
 					if($insert->execute()){
 						echo 'image uploadée';
+						$logName = date('Y-m-d');
+						$log = fopen('../log/'.$logName, 'a+');
+						fwrite($log, "UPLOAD IMG -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+				        fclose($log);
 						echo '<a href="admin.php">revenir à l\'admin : </a>';
 					}
 					else{
