@@ -62,9 +62,14 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
 		$update->bindValue(':active', $_POST['active']);
 		$update->bindValue(':name', $name);
-		$update->execute();
+		if($update->execute()){
+			$logName = date('Y-m-d');
+			$log = fopen('../log/'.$logName, 'a+');
+			fwrite($log, "SLIDER MODIF -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+	        fclose($log);
 
-		header("Refresh:0");
+			header("Refresh:0");
+		}
 	}
 }
 
