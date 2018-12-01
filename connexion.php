@@ -35,7 +35,11 @@ include('includes/connect.php');
 								$_SESSION['email'] = $user[0]['email'];
 								$_SESSION['role'] = $user[0]['role'];
 								$_SESSION['id'] = $user[0]['id'];
-								var_dump($_SESSION);
+								$logName = date('Y-m-d');
+								$log = fopen('log/'.$logName, 'a+');
+            					fwrite($log, "log in -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+           						fclose($log);
+
 								header('location: index.php');
 
 							}

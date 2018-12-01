@@ -4,7 +4,7 @@
 session_start();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="FR">
 <head>
 	<meta charset="UTF-8">
 	<title> </title>

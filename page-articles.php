@@ -7,12 +7,14 @@ $categories = $select->fetchAll();
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="FR">
+
 <head>
 	<meta charset="utf-8">
 	<?php include ('includes/link.php')?>
 	<title>Articles</title>
 </head>
+
 <body>
 
 <?php include ('includes/header.php')?>

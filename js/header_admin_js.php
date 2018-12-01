@@ -10,13 +10,13 @@ $backgroundSearch = $connexion->query("
 
 $backgrounds = $backgroundSearch->fetchAll();
 
-foreach ($backgrounds as $background) {
-	?><script type="text/javascript">
-		$background.push('url(img/<?=$background['name']?>)');
+	foreach ($backgrounds as $background) {
+		?><script type="text/javascript">
+			$background.push('url(../img/<?=$background['name']?>)');
 
-	</script>
-	<?php
-}
+		</script>
+		<?php
+	}
 
 ?>
 
@@ -38,7 +38,7 @@ $(function(){ // Encapsulage
 
 	};
 
-	setInterval(changeBackground, 10000);
+	setInterval(changeBackground, 15000);
 
 	// Affichage du menu burger
 
@@ -60,27 +60,33 @@ $(function(){ // Encapsulage
 
 	$('#home').click(() =>{
 
-	window.location.replace("index.php");
+	window.location.replace("../index.php");
 
 	});
 
 	$('#article').click(() =>{
 
-	window.location.replace("page-articles.php");
+	window.location.replace("../page-articles.php");
 
 	});
 
 	$('#contact').click(() =>{
 
-	window.location.replace("contact.php");
+	window.location.replace("../contact.php");
 
 	});
 
 	$('#listBurger').on('click', '#deconnect', function() {
 
-	window.location.replace("logout.php");
+	window.location.replace("../logout.php");
 
-	})
+	});
+
+	$('#listBurger').on('click', '#admin', function() {
+
+	window.location.replace("admin.php");
+
+	});
 
 })
 
