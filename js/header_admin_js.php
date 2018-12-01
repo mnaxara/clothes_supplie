@@ -4,7 +4,7 @@
 
 $backgroundSearch = $connexion->query("
 	
-	SELECT name FROM imgheader WHERE active = 1
+	SELECT name FROM imgheader WHERE active != 0 ORDER BY active
 
 	");
 
@@ -37,7 +37,7 @@ $(function(){ // Encapsulage
 	    $('header').css("background-image", $background[backActuel]);
 
 	};
-
+	changeBackground();
 	setInterval(changeBackground, 15000);
 
 	// Affichage du menu burger
