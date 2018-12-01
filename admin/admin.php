@@ -3,8 +3,10 @@ session_start();
 require_once ('../includes/connect.php');
 $admin = true;
 
+// ACCESSIBLE UNIQUEMENT AU ADMIN ET VENDEUR
 if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
 
+// REQUETE DE RECUPERATION DES IMAGES DEJA INTEGRE AU SLIDER (Active est different de 0)
 $sliderRequest = $connexion->query("
 						
 	SELECT * FROM imgheader WHERE active != 0 ORDER BY active ASC
@@ -12,6 +14,8 @@ $sliderRequest = $connexion->query("
 	");
 
 $slider = $sliderRequest->fetchAll();
+
+// REQUETE DE RECUPERATION DES IMAGES HEADER QUI NE SONT PAS DANS LE SLIDER
 
 $photosHeader = $connexion->query("
 				
@@ -25,6 +29,7 @@ $photosH = $photosHeader->fetchAll();
 
 if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
+// 4 CONDITIONS POUR TESTE QUELLE EST L'IMAGE UPDATE (PEUT ETRE NON OPTIMAL)
 	if (!empty($_POST['img1'])) {
 		$name = $_POST['img1'];
 	}
@@ -37,9 +42,9 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 	if (!empty($_POST['img4'])) {
 		$name = $_POST['img4'];
 	}
-
+// SI IL A CHOISI UNE IMAGE
 	if(!empty($name)){
-	
+// ON PASSE L'ACTIVE DE L'ANCIENNE IMAGE A 0 ET ON ATTRIBUE LA VALEUR NOUVELLE VALEUR ACTIVE A LA NOUVELLE IMAGE	
 		$update_old = $connexion->prepare("
 
 		UPDATE imgheader SET active = 0 WHERE active = :active
@@ -69,7 +74,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
 
 <html lang="FR">
-
+	<!--LINK EN DUR POUR LA PARTIE ADMIN DU AU SOUS DOSSIER-->
 	<head>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
@@ -81,7 +86,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
 	<body>
 		<?php include ('../includes/header_admin.php')?>
-
+	<!-- FORM D'INSERSION D'IMAGE -->
 		<fieldset>
 			<legend>Insérer une image</legend>
 
@@ -89,11 +94,11 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 				<input type="file" name="fichier">			
 				<select name="table" id="table">
 					<option value="imgheader">Slider</option>
-					<option value="imgproduct">Articles</option>
+					<option value="imgproduct">Produit</option>
 				</select>
-				<label for="article">Si lié a un article, indiquer l'article</label>
+				<label for="article">Si lié a un produit, indiquer le produit</label>
 				<select name="article" id="article">
-					<option value="">Choisir un article</option>
+					<option value="">Choisir un produit</option>
 		<?php
 			$articleBase = $connexion->query("
 				
@@ -115,16 +120,16 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
 			</form>
 		</fieldset>
-
+	<!-- FORM DE MODIFICATION DU SLIDER -->
 		<fieldset>
 			<legend>Modifier image Slider</legend>
+			<!-- REDUIRE ICI POUR MASQUER LE TABLEAU DE MODIF-->
 				<table>
-					<tr>
-						<th>Emplacement</th>
-						<th>Miniature</th>
-						<th>Modifier</th>
-					</tr>
-		
+						<tr>
+							<th>Emplacement</th>
+							<th>Miniature</th>
+							<th>Modifier</th>
+						</tr>
 						<tr>
 							<!-- IMAGE 1 -->
 							<td>1</td>
@@ -133,10 +138,13 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 									<label for="img1">
 										<img src=
 										<?php
+											// SI APERCU A ETE CLIQUE, POST AURA DES VALEUR PERMETTANT D'AFFICHER LA MINIATURE
 											if (!empty($_POST['img1']) && !empty($_POST['action']) && $_POST['action'] === 'preview'){
 												echo "../img/thumbnails/".$_POST['img1'];
 											}
 											else{
+											// SINON CE SERA L'IMAGE ACTUELLEMENT EN PLACE, SLIDER SERA FORCEMENT UN TABLEAU A 4 VALEURS
+											// DONC IMAGE 1 = INDEX 0 ETC..... (SLIDER EST RECUPERE EN DEBUT DE PAGE)
 												echo "../img/thumbnails/".$slider[0]['name'];
 											} 
 										?>
@@ -147,6 +155,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 									<select name="img1" id="img1">
 									<option value="">Choisir une autre image</option>
 									<?php
+									// POUR CHAQUE PHOTO HEADER QUI N'EST PAS DANS LE SLIDER, UNE OPTION EST CREE
 									foreach ($photosH as $photoH) {
 										?><option value="<?=$photoH['name']?>"><?=$photoH['name']?></option>
 										<?php
@@ -278,8 +287,6 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 							</td>
 						</tr>
 				</table>
-
-			</form>
 		</fieldset>
 
 		<?php include ('../includes/footer.php')?>
