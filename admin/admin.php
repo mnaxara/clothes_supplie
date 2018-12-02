@@ -4,7 +4,7 @@ require_once ('../includes/connect.php');
 $admin = true;
 
 // ACCESSIBLE UNIQUEMENT AU ADMIN
-if ($_SESSION['role'] === "ROLE_ADMIN") {
+if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 
 // REQUETE DE RECUPERATION DES IMAGES DEJA INTEGRE AU SLIDER (Active est different de 0)
 $sliderRequest = $connexion->query("
@@ -323,7 +323,7 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 	<?php
 	} //Fin Admin Zone
 	// Zone Vendeur / Admin
-	if ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR") {
+	if (isset($_SESSION['role']) && ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR")) {
 	?>
 	<div class="row">
 		<fieldset class="col-12">
@@ -333,12 +333,13 @@ if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
 
 
-	<?php
+<?php
 	}// Fin Zone Veudeur / Admin
+	if (isset($_SESSION['role'])){
+	include ('../includes/footer_admin.php');
 	?>
-</div>
-	<?php include ('../includes/footer_admin.php');?>
 	</body>
-
-
 </html>
+	<?php
+	}
+	?>
