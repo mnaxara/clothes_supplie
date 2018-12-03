@@ -482,7 +482,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					echo "mauvais produit";
 				}
 			?>	
-				<form action="admin.php" method="POST">
 					<div class="row align-items-center" id="rowArticle">
 				    	<div class="col-md-3">
 				    		<h2><?=$name?></h2>
@@ -506,16 +505,17 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 				    <?php
 
 				    foreach ($imgs as $img) {
-				    	echo '<div class="col-md-3"><img src="../img/thumbnails/'.$img["name"].'" alt="'.$name.'"></div>';
+						echo '<form action="admin.php" method="POST" class="col-md-3">';
+				    	echo '<div><img src="../img/thumbnails/'.$img["name"].'" alt="'.$name.'"></div>';
 				    	echo '<button name="action" value="imgproductDelete">Supprimer</button>';
 				    	echo '<input type="hidden" name="imgIdToDel" value="'.$img["id"].'">';
 				    	echo '<input type="hidden" name="imgNameToDel" value="'.$img["name"].'">';
+						echo '</form>';
 
 				    }
 
 				    ?>
 				    </div>
-				</form>
 
 
 			<?php
