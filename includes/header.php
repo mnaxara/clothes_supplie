@@ -35,6 +35,7 @@ require_once ('connect.php');
 						<label for="password">Password</label>
 						<input type="password" class="form-control" name= "password" id="password" placeholder="Password">
 					</div>
+					<a href="reset_mdp.php">mot de passe oublié ?</a>
 					<button type="submit" class="btn btn-primary m-2">Se Connecter</button>
 				</form>		
 
