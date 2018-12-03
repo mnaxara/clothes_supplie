@@ -89,7 +89,7 @@ $categories = $select->fetchAll();
 
 	if(empty($_GET)){
 
-	$select = $connexion -> query("SELECT *, FROM products INNER JOIN categories_has_products ON products.id = categories_has_products.products_id INNER JOIN categories ON categories_has_products.categories_id = categories.id LIMIT " . $offset . ",". $nb_par_page);
+	$select = $connexion -> query("SELECT * FROM products INNER JOIN categories_has_products ON products.id = categories_has_products.products_id INNER JOIN categories ON categories_has_products.categories_id = categories.id LIMIT " . $offset . ",". $nb_par_page);
 		$products = $select -> fetchAll();
 
 		$selection = $connexion->query("SELECT * FROM products INNER JOIN imgproduct ON products.id = imgproduct.id_product");

@@ -22,16 +22,18 @@ use PHPMailer\PHPMailer\Exception;
 
 		<?php
 
-		$select = $connexion->prepare('SELECT id, email FROM user WHERE email = :email');
-		$select->bindValue(':email', $_POST['email']);
-		$select->execute();
-		$users = $select->fetchAll();
+		if (!empty($_POST['email']) && filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) { 
+	
+			$select = $connexion->prepare('SELECT id, email FROM user WHERE email = :email');
+			$select->bindValue(':email', $_POST['email']);
+			$select->execute();
+			$users = $select->fetchAll();
 
-		if(count($users) === 1 ){
-			$_SESSION['id'] = $users[0]['id'];    		
-			$_SESSION['email'] = $users[0]['email'];
-			
-			
+			if(count($users) === 1 ){
+				$_SESSION['id'] = $users[0]['id'];    		
+				$_SESSION['email'] = $users[0]['email'];
+				
+				
 
 
 			$newMdp = md5(uniqid(rand(), true));
@@ -76,6 +78,7 @@ use PHPMailer\PHPMailer\Exception;
 		}else{
 			echo "pas de compte enregistré";
 		}
+	}
 
 		?>
 		
