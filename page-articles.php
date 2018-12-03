@@ -51,22 +51,29 @@ $categories = $select->fetchAll();
 		</div>
 		
     </form>
-	
-    <div class="row align-items-center" id="rowArticle">
-    	<div class="col-md-4">
-    		<img src="https://placehold.it/300x200" alt="">
-    	</div>
-    	<div class="col-md-3">
-    		<h1>Nom produit</h1>
-    		<h2>Catégorie</h2>
-    	</div>
-    	<div class="col-md-3">
-    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet facilisis velit. Maecenas massa quam, laoreet id tincidunt quis, blandit ut nunc. Sed faucibus convallis odio, non hendrerit ex rhoncus non.</p>
-    	</div>
-    	<div class="col-md-2 text-right">
-    		<h3>50$</h3>
-    	</div>
-    </div>
+	<?php 	$select = $connexion->query('SELECT * FROM  products INNER JOIN imgproduct ON products.id = imgproduct.mainImg');
+			$articles = $select->fetchAll();
+
+			foreach ($articles as $article) {
+	?>			
+			<div class="row align-items-center" id="rowArticle">
+				<div class="col-md-4">
+					<img src="img/thumbnails/<?php echo $article['name']?>" alt="Ma bite">
+				</div>
+				<div class="col-md-3">
+						<h2><?php echo $article['nameP'] ?></h2>
+						<h3>Catégorie</h3>
+				</div>
+				<div class="col-md-3">
+				<?php echo $article['description'] ?>
+				</div>
+				<div class="col-md-2 text-right">
+					<h3><?php echo $article['price'] ?>$</h3>
+				</div>
+			</div>
+	<?php
+			}
+	?>
 
 	<?php 
 
