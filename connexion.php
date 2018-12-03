@@ -20,17 +20,16 @@ include('includes/connect.php');
 									
 						$connectionRequest = $connexion->prepare("
 
-							SELECT * FROM user WHERE email = :email AND password = :password
+							SELECT * FROM user WHERE email = :email 
 
 							");
 
 						$connectionRequest->bindValue(':email', $post['email']);
-						$connectionRequest->bindValue(':password', $post['password']); // A hasher
 
 						if ($connectionRequest->execute()) {
 							$user = $connectionRequest->fetchAll();
 							
-							if (count($user) == 1){
+							if (count($user) === 1 && password_verify($post['password'], $user[0]['password'])){
 								$_SESSION['connexion'] = true;
 								$_SESSION['email'] = $user[0]['email'];
 								$_SESSION['role'] = $user[0]['role'];

@@ -119,6 +119,31 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 			<div class="row">
 				<fieldset class="col-12">
 					<legend>Ajouter un user</legend>
+						<form method="post" action="../addUser.php">
+							<div class="col-md-8">
+								<h2>Inscription</h2>
+								<div class="form-group">
+									<label>Email</label>
+									<input type="text" name="email" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Mot de passe</label>
+									<input type="password" name="mdp" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Répéter le mdp</label>
+									<input type="password" name="mdp2" class="form-control">
+								</div>
+								<div class="form-group">
+									<select class="custom-select" name="role">
+										<option value="0">choisir un role</option>								
+										<option value="ROLE_VENDOR">vendeur</option>
+										<option value="ROLE_ADMIN">admin</option>
+									</select>
+								</div>							
+								<button name="action" type="submit" value="new_user" class="btn btn-primary">Valider</button>
+							</div>
+						</form>
 				</fieldset>
 			</div>
 			<!-- // MODIF ADRESSE -->
@@ -496,7 +521,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 			<?php
 			}
 			?>
-
 
 			<form action="admin.php" method="POST">
 			</form>
