@@ -6,3 +6,8 @@
 #updtSlider{
 	margin: 0 auto;
 }
+
+label{
+	font-weight: bold;
+	text-decoration: underline;
+}

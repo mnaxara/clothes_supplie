@@ -6,6 +6,7 @@ $admin = true;
 // ACCESSIBLE UNIQUEMENT AU ADMIN
 if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 
+
 // REQUETE DE RECUPERATION DES IMAGES DEJA INTEGRE AU SLIDER (Active est different de 0)
 	$sliderRequest = $connexion->query("
 
@@ -29,49 +30,51 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 
 	if (!empty($_POST['action']) && $_POST['action'] === 'update') {
 
-// 4 CONDITIONS POUR TESTE QUELLE EST L'IMAGE UPDATE (PEUT ETRE NON OPTIMAL)
-		if (!empty($_POST['img1'])) {
-			$name = $_POST['img1'];
-		}
-		if (!empty($_POST['img2'])) {
-			$name = $_POST['img2'];
-		}
-		if (!empty($_POST['img3'])) {
-			$name = $_POST['img3'];
-		}
-		if (!empty($_POST['img4'])) {
-			$name = $_POST['img4'];
-		}
-// SI IL A CHOISI UNE IMAGE
-		if(!empty($name)){
-// ON PASSE L'ACTIVE DE L'ANCIENNE IMAGE A 0 ET ON ATTRIBUE LA VALEUR NOUVELLE VALEUR ACTIVE A LA NOUVELLE IMAGE	
-			$update_old = $connexion->prepare("
+	// 4 CONDITIONS POUR TESTE QUELLE EST L'IMAGE UPDATE (PEUT ETRE NON OPTIMAL)
+			if (!empty($_POST['img1'])) {
+				$name = $_POST['img1'];
+			}
+			if (!empty($_POST['img2'])) {
+				$name = $_POST['img2'];
+			}
+			if (!empty($_POST['img3'])) {
+				$name = $_POST['img3'];
+			}
+			if (!empty($_POST['img4'])) {
+				$name = $_POST['img4'];
+			}
+	// SI IL A CHOISI UNE IMAGE
+			if(!empty($name)){
+	// ON PASSE L'ACTIVE DE L'ANCIENNE IMAGE A 0 ET ON ATTRIBUE LA VALEUR NOUVELLE VALEUR ACTIVE A LA NOUVELLE IMAGE	
+				$update_old = $connexion->prepare("
 
-				UPDATE imgheader SET active = 0 WHERE active = :active
+					UPDATE imgheader SET active = 0 WHERE active = :active
 
-				");
+					");
 
-			$update_old->bindValue(':active', $_POST['active']);
-			$update_old->execute();
+				$update_old->bindValue(':active', $_POST['active']);
+				$update_old->execute();
 
-			$update = $connexion->prepare("
+				$update = $connexion->prepare("
 
-				UPDATE imgheader SET active = :active WHERE name = :name AND active = 0
+					UPDATE imgheader SET active = :active WHERE name = :name AND active = 0
 
-				");
+					");
 
-			$update->bindValue(':active', $_POST['active']);
-			$update->bindValue(':name', $name);
-			if($update->execute()){
-				$logName = date('Y-m-d');
-				$log = fopen('../log/'.$logName, 'a+');
-				fwrite($log, "SLIDER MODIF -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
-				fclose($log);
+				$update->bindValue(':active', $_POST['active']);
+				$update->bindValue(':name', $name);
+				if($update->execute()){
+					$logName = date('Y-m-d');
+					$log = fopen('../log/'.$logName, 'a+');
+					fwrite($log, "SLIDER MODIF -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+					fclose($log);
 
-				header("Refresh:0");
+					header("Refresh:0");
+				}
 			}
 		}
-	}
+
+	// REQUETE SUPPRESSION IMAGE DE PRODUIT
 
 	if (!empty($_POST['action']) && $_POST['action'] === 'imgproductDelete') {
 
@@ -95,6 +98,95 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 			echo "img incorrect";
 		}
 	}
+
+	// REQUETE MODIFICATION DE PRODUITS
+
+	if (!empty($_POST['action']) && $_POST['action'] === 'updtPdct') {
+		
+		$errors = [];
+
+		if (mb_strlen($_POST['name']) < 2) {
+			$errors[] = 'Nom invalide';
+		}
+
+		if (mb_strlen($_POST['description']) < 10) {
+			$errors[] = 'Description trop courte';
+		}
+		if (empty($_POST['categories'])) {
+			$errors[] = 'Selectionner une categorie';
+		}
+		if (!is_numeric($_POST['price'])) {
+			$errors[] = 'Prix invalide';
+		}
+		if (!is_numeric($_POST['availability'])) {
+			$errors[] = 'Disponibilité invalide';
+		}
+
+		if (empty($errors)) { // SI PAS D'ERREUR
+
+			$post = [];
+
+			foreach ($_POST as $key => $value) {
+				if (is_string($value)) {
+					$post[$key] = strip_tags($value);
+				}
+			}
+			
+			$updateProduct = $connexion->prepare("
+				
+				UPDATE products SET name = :name, description = :description, availability = :availability, price = :price WHERE
+				id = :id
+
+				");
+
+			$updateProduct->bindValue(':name', $post['name']);
+			$updateProduct->bindValue(':description', $post['description']);
+			$updateProduct->bindValue(':availability', $post['availability']);
+			$updateProduct->bindValue(':price', $post['price']);
+			$updateProduct->bindValue(':id', $post['id']);
+			$updateProduct->execute();
+
+			// ON SUPPRIME TOUTES LES CATEGORIES LIE A L'ARTICLE
+
+			$delCategories = $connexion->prepare("
+
+			DELETE FROM categories_has_products WHERE products_id = :id
+
+				");
+			$delCategories->bindValue(':id', $post['id']);
+			$delCategories->execute();
+
+			// ON AJOUTE LES NOUVELLES CATEGORIES
+
+			$addCat = "";
+
+			foreach ($_POST['categories'] as $key => $value) {
+				$addCat .= " (:id, ".strip_tags($value)."),";
+			}
+
+			$addCat = substr($addCat, 0, -1);
+
+			$addCategories = $connexion->prepare("
+
+			INSERT INTO categories_has_products (products_id, categories_id) VALUES ".$addCat);
+			$addCategories->bindValue(':id', $post['id']);
+			$addCategories->execute();
+
+			$logName = date('Y-m-d');
+			$log = fopen('../log/'.$logName, 'a+');
+			fwrite($log, "ARTICLE MODIFIE id :".$post['id']." -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+			fclose($log);
+
+		}
+		else{
+			echo implode('<br>', $errors);
+		}
+		
+
+
+
+	}
+
 
 	?>
 
@@ -121,7 +213,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					<legend>Ajouter un user</legend>
 						<form method="post" action="../addUser.php">
 							<div class="col-md-8">
-								<h2>Inscription</h2>
 								<div class="form-group">
 									<label>Email</label>
 									<input type="text" name="email" class="form-control">
@@ -417,13 +508,16 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 	} //Fin Admin Zone
 	// Zone Vendeur / Admin
 	if (isset($_SESSION['role']) && ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR")) {
+	
+	// EDITION D'ARTICLE
+
 	?>
 	<div class="row">
 		<fieldset class="col-12">
 			<legend>Edition d'article</legend>
 			<form action="admin.php" method="POST" id="productChoice">
 				<?php
-
+				// LISTE DEROULANTE PRODUIT A MODIFIER
 				$productsRequest = $connexion->query("
 		
 					SELECT * FROM products		
@@ -445,10 +539,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 				</select>
 				<button type="submit" name="action" value="chooseP">Modifier</button>
 			</form>
+
 			<?php
-				echo "<pre>";
-				print_r($_POST);
-				echo "</pre>";
+
+			// SI UN ARTICLE EST CHOISI, ECRAN DE MODIF
+
 			if (!empty($_POST['updateP']) && !empty($_POST['action']) && $_POST['action'] == "chooseP") {
 
 				$productChoose = $connexion->prepare("
@@ -468,6 +563,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					$name = $products[0]['namep'];
 					$desc = $products[0]['description'];
 					$price = $products[0]['price'];
+					$availability = $products[0]['availability'];
 
 					$requestImg = $connexion->prepare("
 							
@@ -482,40 +578,88 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					echo "mauvais produit";
 				}
 			?>	
-					<div class="row align-items-center" id="rowArticle">
+					<form class="row align-items-center" id="rowArticle" method="POST">
+				    	<div class="col-md-2">
+				    		<label for="name">Nom de l'article : </label>
+				    		<input type="text" name="name" id="name" value="<?=$name?>"></input>
+				    	</div>
 				    	<div class="col-md-3">
-				    		<h2><?=$name?></h2>
-				    		<div><ul>
-				    		<?php
-				    		foreach ($products as $product){
-				    			echo "<li>".$product['category_name']."</li>";
-				    		}
-				    		?>
-				    		</ul>	    			
+				    		<div class="row">
+				    			<label for="categorie">CATEGORIE : </label>
+				    			<ul>
+				    		
+						    		<?php
+						    		// JE RECUPERE TOUTE LES CATEGORIE EXISTANTE
+
+						    		$cats = $connexion->query("SELECT id, category_name FROM categories");
+						    		$cats = $cats->fetchAll();
+
+						    		// JE RECUPERE TTE CELLE DE L'ARTICLE
+						    		$catsPdcts = $connexion->prepare("
+
+						    			SELECT category_name FROM categories LEFT JOIN categories_has_products ON
+						    			categories.id = categories_has_products.categories_id WHERE products_id = :id
+
+						    			");
+
+						    		$catsPdcts->bindValue(':id', $id);
+						    		$catsPdcts->execute();
+						    		$catsPdcts = $catsPdcts->fetchAll();
+						    		$catsOfProducts = [];
+
+						    		foreach ($catsPdcts as $catsPdct) {
+						    			$catsOfProducts[] = $catsPdct['category_name'];
+						    		}
+
+						    		foreach ($cats as $cat){
+						    			echo "<li>";
+						    			echo '<label for="categories">'.$cat["category_name"].'</label>';
+						    			echo in_array($cat["category_name"], $catsOfProducts) ?
+							    			 '<input name="categories[]" id="categories" type="checkbox" value="'.$cat["id"].'" checked>' : 
+							    			 '<input name="categories[]" id="categories" type="checkbox" value="'.$cat["id"].'" >';
+						    			echo "</li>";
+						    		}
+
+						    		?>
+				    			</ul>
 				    		</div>
 				    	</div>
 				    	<div class="col-md-3">
-				    		<p><?=$desc?></p>
+				    		<label for="description">Description</label>
+				    		<textarea type="text" name="description" id="description" rows="20"><?=$desc?></textarea>
 				    	</div>
-				    	<div class="col-md-2 text-right">
-				    		<h3><?=$price?>$</h3>
+				    	<div class="col-md-2">
+				    		<label for="price">Prix :</label>
+				    		<input type="text" name="price" value="<?=$price?>" id="price"></input>
 				    	</div>
-				    </div>
+				    	<div class="col-md-2">
+				    		<label for="availability">Disponibilité :</label>
+				    		<input type="text" name="availability" value="<?=$availability?>" id="availability"></input>
+				    	</div>
+				    	<div class="col-12 text-center">
+				    		<input type="hidden" name = "id" value="<?=$id?>">
+				    		<button name="action" value="updtPdct">Modifier</button>
+				    	</div>
+				    </form>
+				    <hr>
+				    <p>Images liée(s) au produits</p>
 				    <div class="row">
-				    <?php
+				    	<div class="col-12 d-flex">
+						    <?php
+						    foreach ($imgs as $img) {
+								echo '<form action="admin.php" method="POST" class="col-md-1">';
+						    	echo '<div><img src="../img/thumbnails/'.$img["name"].'" alt="'.$name.'"></div>';
+						    	echo '<button name="action" value="imgproductDelete">Supprimer</button>';
+						    	echo '<input type="hidden" name="imgIdToDel" value="'.$img["id"].'">';
+						    	echo '<input type="hidden" name="imgNameToDel" value="'.$img["name"].'">';
+								echo '</form>';
 
-				    foreach ($imgs as $img) {
-						echo '<form action="admin.php" method="POST" class="col-md-3">';
-				    	echo '<div><img src="../img/thumbnails/'.$img["name"].'" alt="'.$name.'"></div>';
-				    	echo '<button name="action" value="imgproductDelete">Supprimer</button>';
-				    	echo '<input type="hidden" name="imgIdToDel" value="'.$img["id"].'">';
-				    	echo '<input type="hidden" name="imgNameToDel" value="'.$img["name"].'">';
-						echo '</form>';
+						    }
 
-				    }
-
-				    ?>
+						    ?>
+					    </div>
 				    </div>
+				    <hr>
 
 
 			<?php

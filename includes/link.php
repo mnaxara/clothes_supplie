@@ -5,3 +5,4 @@
 <link rel="stylesheet" type="text/css" href="css/style-accueil.css">
 <link rel="stylesheet" type="text/css" href="css/page-articles.css">
 <link rel="stylesheet" type="text/css" href="css/footer_app.css">
+<link rel="stylesheet" type="text/css" href="css/detail_article.css">
