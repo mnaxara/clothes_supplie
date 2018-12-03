@@ -28,8 +28,8 @@ session_start();
 	<div class="container">
 		<div class="row">
 		
-			<div class="col-md-12">
-			<h2><u>Présentation de notre boutique : </u></h2>
+			<div class="col-md-12 shadow p-3 mb-5 bg-white rounded">
+			<h2><u><br>Présentation de notre boutique : </u></h2>
 				<p> Première  collection débutée en novembre 2018: Cloth Supplies habille petits et grands, du manteau au pantalon en passant par les tee-shirts.
 				Ce site vitrine nous permet de mettre en avant les articles vendus en magasin. ...
 				</p>
