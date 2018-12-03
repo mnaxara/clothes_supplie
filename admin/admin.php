@@ -73,6 +73,29 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 		}
 	}
 
+	if (!empty($_POST['action']) && $_POST['action'] === 'imgproductDelete') {
+
+		if (is_numeric($_POST['imgIdToDel'])) {
+			
+		
+			$deleteImg = $connexion->prepare("
+
+				DELETE FROM imgproduct WHERE id = :id
+
+				");
+			$deleteImg->bindValue('id', $_POST['imgIdToDel']);
+			if ($deleteImg->execute()) {
+
+				unlink("../img/".$_POST['imgNameToDel']);
+				unlink("../img/thumbnails".$_POST['imgNameToDel']);
+				
+			};
+		}
+		else{
+			echo "img incorrect";
+		}
+	}
+
 	?>
 
 	<!DOCTYPE html>
@@ -433,7 +456,8 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 				else{
 					echo "mauvais produit";
 				}
-			?>
+			?>	
+				<form action="admin.php" method="POST">
 					<div class="row align-items-center" id="rowArticle">
 				    	<div class="col-md-3">
 				    		<h2><?=$name?></h2>
@@ -457,11 +481,16 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 				    <?php
 
 				    foreach ($imgs as $img) {
-				    	# code...
+				    	echo '<div class="col-md-3"><img src="../img/thumbnails/'.$img["name"].'" alt="'.$name.'"></div>';
+				    	echo '<button name="action" value="imgproductDelete">Supprimer</button>';
+				    	echo '<input type="hidden" name="imgIdToDel" value="'.$img["id"].'">';
+				    	echo '<input type="hidden" name="imgNameToDel" value="'.$img["name"].'">';
+
 				    }
 
 				    ?>
 				    </div>
+				</form>
 
 
 			<?php
