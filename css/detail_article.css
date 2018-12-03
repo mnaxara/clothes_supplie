@@ -1,0 +1,56 @@
+.bg_de_t{
+	background-color: red;
+}
+.bg_de_t2{
+	background-color: green;
+}
+.miniature{
+	margin-top: 5px;
+	
+}
+.detail{
+	margin: 17px;
+}
+.detail span {
+    text-decoration: underline;
+}
+.price{
+	margin-top: 20px;
+	font-size: 2rem;
+}
+.buy{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	padding: 10px 15px;
+	margin-right: 15px;
+    margin-bottom: 10px;
+}
+.border_row {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 3px 4px 5px 0px rgba(163,163,163,1);
+}
+.name{
+	font-weight: 800;
+	font-size: 1.8rem;
+}
+.dispo{
+	font-weight: 600;
+	font-size: 1.5rem;
+}
+.fa-times{
+	color: red;
+}
+.fa-check{
+	color: green;
+}
+.prix{
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+.descrip{
+	text-decoration: underline;
+	font-weight: 600;
+}
