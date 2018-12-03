@@ -12,10 +12,10 @@ border-radius: 5px;
 	margin-top: 70px;
 }
 
-#rowArticle h1{
-	font-size: 36px;
+#rowArticle h2 {
+	font-size: 28px;;
 }
 
-#rowArticle h2{
+#rowArticle h3{
 	font-size: 17px;
 }
