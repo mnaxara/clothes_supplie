@@ -9,7 +9,6 @@ require_once ('connect.php');
 <html>
 <head>
 	<?php include('link.php')?>
-	<title>Test Header</title>
 </head>
 <body>
 
