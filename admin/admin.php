@@ -98,6 +98,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					<legend>Ajouter un user</legend>
 				</fieldset>
 			</div>
+			<!-- // MODIF ADRESSE -->
 			<div class="row">
 				<fieldset class="col-12">
 					<legend>Changer l'adresse</legend>
@@ -139,16 +140,9 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 							else{
 								echo 'pb de modification';
 							}
-						}else{
-							echo "test error";
 						}
 
-
 						?>
-
-
-
-
 
 					</form>
 				</fieldset>
@@ -426,7 +420,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					$name = $products[0]['namep'];
 					$desc = $products[0]['description'];
 					$price = $products[0]['price'];
-				}
 
 					$requestImg = $connexion->prepare("
 							
@@ -436,6 +429,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 						$requestImg->bindValue(':id', $id);
 						$requestImg->execute();
 						$imgs = $requestImg->fetchAll();
+				}
 				else{
 					echo "mauvais produit";
 				}
