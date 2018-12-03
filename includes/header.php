@@ -14,8 +14,8 @@ require_once ('connect.php');
 <body>
 
 	<header class="container-fluid mb-5">
-		<div class="row d-flex align-items-center">
-			<div class="col-10 col-md-3">
+		<div class="row d-flex align-items-center container m-auto">
+			<div class="col-10 col-md-4">
 		<!-- Search bar  -->
 				<form class="p-md-3" action="page-articles.php">
                     <div class="d-flex align-items-center">
@@ -49,8 +49,9 @@ require_once ('connect.php');
 				}
 				?>
 			</div>
+
 		<!-- Menu burger  -->
-			<div class="col-2 col-md-2 offset-md-2 text-center">
+			<div class="col-2 col-md-3 text-center">
 				<i class="fas fa-bars fa-2x" id="burger"></i>
 				<div id="menuBurger">
 					<ul class="list-group" id="listBurger">
@@ -74,7 +75,7 @@ require_once ('connect.php');
 				</div>
 			</div>
 			
-		</div>
+		    </div>
 
 
 	</header>
