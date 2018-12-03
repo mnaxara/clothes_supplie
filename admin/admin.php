@@ -375,17 +375,117 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 	} //Fin Admin Zone
 	// Zone Vendeur / Admin
 	if (isset($_SESSION['role']) && ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR")) {
-		?>
-		<div class="row">
-			<fieldset class="col-12">
-				<legend>Edition / Ajout d'article</legend>
-			</fieldset>
-		</div>
+	?>
+	<div class="row">
+		<fieldset class="col-12">
+			<legend>Edition d'article</legend>
+			<form action="admin.php" method="POST" id="productChoice">
+				<?php
+
+				$productsRequest = $connexion->query("
+		
+					SELECT * FROM products		
+
+					");
+
+				$products = $productsRequest->fetchAll();
+
+				?>
+
+				<label for="updateP">Modifier un article</label>
+				<select name="updateP" id="updateP">
+
+					<?php
+					foreach ($products as $product) {
+						echo '<option value="'.$product['id'].'">'.$product['name'].'</option>';
+					}
+					?>
+				</select>
+				<button type="submit" name="action" value="chooseP">Modifier</button>
+			</form>
+			<?php
+				echo "<pre>";
+				print_r($_POST);
+				echo "</pre>";
+			if (!empty($_POST['updateP']) && !empty($_POST['action']) && $_POST['action'] == "chooseP") {
+
+				$productChoose = $connexion->prepare("
+
+					SELECT *, products.name AS namep FROM products INNER JOIN categories_has_products ON products.id = categories_has_products.products_id
+					INNER JOIN categories ON  categories_has_products.categories_id = categories.id WHERE categories_has_products.products_id = :id
+
+					");
+
+				if (is_numeric($_POST['updateP'])){
+					
+					$id = $_POST['updateP'];
+					$productChoose->bindValue(':id', $id);
+					$productChoose->execute();
+					$products = $productChoose->fetchAll();
+
+					$name = $products[0]['namep'];
+					$desc = $products[0]['description'];
+					$price = $products[0]['price'];
+				}
+
+					$requestImg = $connexion->prepare("
+							
+						SELECT id, name, id_product FROM imgproduct WHERE id_product = :id
+	
+						");
+						$requestImg->bindValue(':id', $id);
+						$requestImg->execute();
+						$imgs = $requestImg->fetchAll();
+				else{
+					echo "mauvais produit";
+				}
+			?>
+					<div class="row align-items-center" id="rowArticle">
+				    	<div class="col-md-3">
+				    		<h2><?=$name?></h2>
+				    		<div><ul>
+				    		<?php
+				    		foreach ($products as $product){
+				    			echo "<li>".$product['category_name']."</li>";
+				    		}
+				    		?>
+				    		</ul>	    			
+				    		</div>
+				    	</div>
+				    	<div class="col-md-3">
+				    		<p><?=$desc?></p>
+				    	</div>
+				    	<div class="col-md-2 text-right">
+				    		<h3><?=$price?>$</h3>
+				    	</div>
+				    </div>
+				    <div class="row">
+				    <?php
+
+				    foreach ($imgs as $img) {
+				    	# code...
+				    }
+
+				    ?>
+				    </div>
+
+
+			<?php
+			}
+			?>
+
+
+			<form action="admin.php" method="POST">
+			</form>
+
+		</fieldset>
 	</div>
 
 
-	<?php
-	}// Fin Zone Veudeur / Admin
+
+
+<?php
+	}// Fin Zone Vendeur / Admin
 	if (isset($_SESSION['role'])){
 		include ('../includes/footer_admin.php');
 		?>
