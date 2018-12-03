@@ -34,22 +34,23 @@ session_start();
 				Ce site vitrine nous permet de mettre en avant les articles vendus en magasin. ...
 				</p>
 			</div>
-		<div class="row">
-			<div class="img-responsive">
-				<img src="img/accueil1.jpg">
+			<div class="row">
+				<div class="img-responsive">
+					<img src="img/accueil1.jpg">
+				
+				
+					<img src="img/accueil2.jpg">
+				
+				
+					<img src="img/accueil3.jpg">
 			
-			
-				<img src="img/accueil2.jpg">
-			
-			
-				<img src="img/accueil3.jpg">
-		
-			
-				<img src="img/accueil4.jpg">
-			
+				
+					<img src="img/accueil4.jpg">
+				
+				</div>
 			</div>
-		</div>
 
+		</div>
 	</div>
 
 	<?php
