@@ -1,7 +1,7 @@
 <script type="text/javascript">let $background = [];</script>
 
 <?php
-
+// On recupere les photo header nn active et on les push dans un tableau
 $backgroundSearch = $connexion->query("
 	
 	SELECT name FROM imgheader WHERE active != 0 ORDER BY active
