@@ -172,6 +172,11 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 			$addCategories->bindValue(':id', $post['id']);
 			$addCategories->execute();
 
+			$logName = date('Y-m-d');
+			$log = fopen('../log/'.$logName, 'a+');
+			fwrite($log, "ARTICLE MODIFIE id :".$post['id']." -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+			fclose($log);
+
 		}
 		else{
 			echo implode('<br>', $errors);
@@ -208,7 +213,6 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 					<legend>Ajouter un user</legend>
 						<form method="post" action="../addUser.php">
 							<div class="col-md-8">
-								<h2>Inscription</h2>
 								<div class="form-group">
 									<label>Email</label>
 									<input type="text" name="email" class="form-control">
@@ -638,6 +642,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 				    	</div>
 				    </form>
 				    <hr>
+				    <p>Images liée(s) au produits</p>
 				    <div class="row">
 				    	<div class="col-12 d-flex">
 						    <?php
