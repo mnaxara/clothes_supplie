@@ -181,7 +181,80 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 		else{
 			echo implode('<br>', $errors);
 		}
+	}
+
+	// REQUETE AJOUT DE PRODUITS
+
+		if (!empty($_POST['action']) && $_POST['action'] === 'newPdct') {
 		
+		$errors = [];
+
+		if (mb_strlen($_POST['nameNew']) < 2) {
+			$errors[] = 'Nom invalide';
+		}
+
+		if (mb_strlen($_POST['descriptionNew']) < 10) {
+			$errors[] = 'Description trop courte';
+		}
+		if (empty($_POST['categoriesNew'])) {
+			$errors[] = 'Selectionner une categorie';
+		}
+		if (!is_numeric($_POST['priceNew'])) {
+			$errors[] = 'Prix invalide';
+		}
+		if (!is_numeric($_POST['availabilityNew'])) {
+			$errors[] = 'Disponibilité invalide';
+		}
+
+		if (empty($errors)) { // SI PAS D'ERREUR
+
+			$post = [];
+
+			foreach ($_POST as $key => $value) {
+				if (is_string($value)) {
+					$post[$key] = strip_tags($value);
+				}
+			}
+			
+			$newProduct = $connexion->prepare("
+				
+				INSERT INTO products (name, price, availability, description) VALUES (:name, :price, :availability, :description)
+
+				");
+
+			$newProduct->bindValue(':name', $post['nameNew']);
+			$newProduct->bindValue(':description', $post['descriptionNew']);
+			$newProduct->bindValue(':availability', $post['availabilityNew']);
+			$newProduct->bindValue(':price', $post['priceNew']);
+			$newProduct->execute();
+
+			// ON AJOUTE LES NOUVELLES CATEGORIES
+
+			$idNew = $connexion->lastInsertId();
+
+			$addCat = "";
+
+			foreach ($_POST['categoriesNew'] as $key => $value) {
+				$addCat .= " (:id, ".strip_tags($value)."),";
+			}
+
+			$addCat = substr($addCat, 0, -1);
+
+			$addCategories = $connexion->prepare("
+
+			INSERT INTO categories_has_products (products_id, categories_id) VALUES ".$addCat);
+			$addCategories->bindValue(':id', $idNew);
+			$addCategories->execute();
+
+			$logName = date('Y-m-d');
+			$log = fopen('../log/'.$logName, 'a+');
+			fwrite($log, "ARTICLE CREE id :".$idNew." -- email -> " . $_SESSION['email'] . " -- date -> " . date('Y-m-d H:i:s') . PHP_EOL);
+			fclose($log);
+
+		}
+		else{
+			echo implode('<br>', $errors);
+		}
 
 
 
@@ -505,7 +578,7 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 		</div>
 
 		<?php
-	} //Fin Admin Zone
+} //Fin Admin Zone
 	// Zone Vendeur / Admin
 	if (isset($_SESSION['role']) && ($_SESSION['role'] === "ROLE_ADMIN" || $_SESSION['role'] === "ROLE_VENDOR")) {
 	
@@ -653,30 +726,65 @@ if (isset($_SESSION['role']) && $_SESSION['role'] === "ROLE_ADMIN") {
 						    	echo '<input type="hidden" name="imgIdToDel" value="'.$img["id"].'">';
 						    	echo '<input type="hidden" name="imgNameToDel" value="'.$img["name"].'">';
 								echo '</form>';
-
 						    }
 
 						    ?>
 					    </div>
 				    </div>
 				    <hr>
-
-
 			<?php
 			}
 			?>
 
-			<form action="admin.php" method="POST">
-			</form>
+			<!-- NOUVEAU PRODUIT -->
+			<fieldset>
+				    	<legend>Ajouter un produit</legend>
+					<form class="row align-items-center" id="rowArticle" method="POST">
+				    	<div class="col-md-2">
+				    		<label for="name">Nom de l'article : </label>
+				    		<input type="text" name="nameNew" id="nameNew"></input>
+				    	</div>
+				    	<div class="col-md-3">
+				    		<div class="row">
+				    			<label for="categorieNew">CATEGORIE : </label>
+				    			<ul>
+				    		
+						    		<?php
+						    		// JE RECUPERE TOUTE LES CATEGORIE EXISTANTE
 
-		</fieldset>
-	</div>
+						    		$cats = $connexion->query("SELECT id, category_name FROM categories");
+						    		$cats = $cats->fetchAll();
 
-
-
+						    		foreach ($cats as $cat){
+						    			echo "<li>";
+						    			echo '<label for="categoriesNew">'.$cat["category_name"].'</label>';
+						    			echo '<input name="categoriesNew[]" id="categoriesNew" type="checkbox" value="'.$cat["id"].'" >';
+						    			echo "</li>";
+						    		}
+						    		?>
+				    			</ul>
+				    		</div>
+				    	</div>
+				    	<div class="col-md-3">
+				    		<label for="description">Description</label>
+				    		<textarea type="text" name="descriptionNew" id="descriptionNew" rows="20"></textarea>
+				    	</div>
+				    	<div class="col-md-2">
+				    		<label for="price">Prix :</label>
+				    		<input type="text" name="priceNew" id="priceNew"></input>
+				    	</div>
+				    	<div class="col-md-2">
+				    		<label for="availability">Disponibilité :</label>
+				    		<input type="text" name="availabilityNew" id="availabilityNew"></input>
+				    	</div>
+				    	<div class="col-12 text-center">
+				    		<button name="action" value="newPdct">Ajouter</button>
+				    	</div>
+				    </form>
+			    </fieldset>
 
 <?php
-	}// Fin Zone Vendeur / Admin
+}// Fin Zone Vendeur / Admin
 	if (isset($_SESSION['role'])){
 		include ('../includes/footer_admin.php');
 		?>
