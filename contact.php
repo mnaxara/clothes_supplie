@@ -129,7 +129,7 @@ require_once ('includes/connect.php');
                <div class="col-12 col-md-4 d_contact">
                   <ul class="info">
                      <h2>Infos :</h2>
-                     <li><span>Adresse :</span> 66 Rue Abbé de l'Épée, 33000 Bordeaux</li>
+                     <li><span>Adresse :</span><?=$adresse?></li>
                      <li><span>Téléphone :</span> 05 56 52 23 26</li>
                      <li><span>Email :</span> philo@philo.philo</li>
                  </ul>						
