@@ -1,5 +1,5 @@
 <?php
-// require_once ('includes/connect.php');
+ require_once ('includes/connect.php');
 
 session_start();
 ?>
@@ -35,17 +35,19 @@ session_start();
 				</p>
 			</div>
 			<div class="row">
-				<div class="img-responsive">
-					<img src="img/accueil1.jpg">
-				
-				
-					<img src="img/accueil2.jpg">
-				
-				
-					<img src="img/accueil3.jpg">
+				<div class="img-responsive"> 
+			<?php
+			$select = $connexion -> query('SELECT * FROM imgproduct WHERE mainpage > 0 ORDER BY mainpage');
+			$resultats = $select ->fetchAll();
+			foreach ($resultats as $resultat) {
+			?>
+			<img src="img/<?= $resultat['name']?>">
+			<?php
+
+			}
+			?>
+		
 			
-				
-					<img src="img/accueil4.jpg">
 				
 				</div>
 			</div>
