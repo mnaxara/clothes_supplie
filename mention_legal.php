@@ -1,5 +1,3 @@
-<p style="text-align:center"><span style="color:rgb(255, 0, 0)"><span style="background-color:rgb(211, 211, 211)">Si vous utilisez nos Mentions Légales, vous vous engagez à laisser les liens </span><strong><span style="background-color:rgb(211, 211, 211)">Crédit sans en modifier ni les liens ni les ancres.</span></strong><span style="background-color:rgb(211, 211, 211)"> </span></span><br />
-<span style="color:rgb(255, 0, 0)"><span style="background-color:rgb(211, 211, 211)">Par avance merci pour votre compréhension et le respect du travail effectué par toute l'équipe</span></span></p>
 
 <h1>MENTIONS LEGALES :</h1>
 
