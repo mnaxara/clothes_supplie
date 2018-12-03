@@ -20,7 +20,7 @@ session_start();
 		<div class="row">
 			<div class="col-md-12">
 				<div class="logo">
-					<img src="https://s3.amazonaws.com/user-media.venngage.com/376043-9fa5429728492d584d5fd75e653704d9.jpg">
+					<img src="img/LOGO.jpg" alt="logo" class="rounded-circle">
 				</div>
 			</div>
 		</div>
@@ -30,7 +30,7 @@ session_start();
 		
 			<div class="col-md-12">
 			<h2><u>Présentation de notre boutique : </u></h2>
-				<p> Première  collection débutée en novembre 2018: ClothSupply(nom temporaire) habille petits et grands, du manteau au pantalon en passant par les tee-shirt.
+				<p> Première  collection débutée en novembre 2018: Cloth Supplies habille petits et grands, du manteau au pantalon en passant par les tee-shirts.
 				Ce site vitrine nous permet de mettre en avant les articles vendus en magasin. ...
 				</p>
 			</div>
